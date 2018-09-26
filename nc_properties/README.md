@@ -2,7 +2,7 @@
 
 ## Problem: 
 Scrap data from the Mecklenburg County website (https://property.spatialest.com/nc/mecklenburg/)
-on single family residential properties, write to db, explore and analyze.
+on single family residential properties, write to db, explore and tell a story.
 
 ## My solution:
 #### 1. Data appropriation 
@@ -75,5 +75,11 @@ round(np.mean(score),5)
 compare = pd.DataFrame({'actual total assessed value': y_test, 'predicted total assessed value': y_pred})
 compare.to_csv('output/compare model outcome.csv', index=False, index_label=False)
 ```
+
+#### Conclusion:
+The data analysis showed a well established ground for predictive modeling. 
+As I can see, there are enough parameters for the algorithm to predict total assessed value for properties with high regression scoring value.
+For any other sample of single family residential properties in Mecklenburg County, the model will predict the total assessed value with a high degree of accuracy. 
+
 
 
