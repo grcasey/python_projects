@@ -10,23 +10,17 @@ The current approach will comprise two different deep learning models and their 
 ## Prerequisites 
 * Python IDE
 * Theano library 
-*Example:*
-_pip install theano_
 
 * Tensorflow library 
-*Example:*
-_pip install tensorflow_
 
 * Keras 
-*Example:*
-_pip install keras_
 
 * For GPU implementations, consult [Using GPUs](https://www.tensorflow.org/guide/using_gpu)
 
 ## My Solution
 
 ### Deep Learning Models
-I have chosen CNN and LSTM models to train on the MNIST dataset. 
+I have chosen CNN and LSTM models to train on the MNIST dataset. My choice of deep learning models is discussed below.
 
 #### CNN
 In general, Convolutional Neural Networks, or CNNs, were designed to map image data to an output variable.
@@ -36,25 +30,24 @@ CNN perform well on data that has a spatial relationship. Unsurprisingly, CNN is
 #### RNN - LSTM 
 Recurrent Neural Networks, or RNN, were designed to work with sequential data.
 Sequence problems may come in many different forms. For example, we can think of one dimension of an image being a time step, 
-and another a feature. Thus, for each image in MNIST with width and height of 28x28 we can assume it has 28 time steps with 28 features in each of them.
+and another a feature. Thus, for each image in MNIST with width and height of 28x28 we can assume it has 28 time steps with 28 features within each of them.
 To deal with exploding and vanishing gradient problems - the common problems for traditional RNN models, the Long Short-Term Memory, or LSTM, network is perhaps the most useful approach.
-Thus, the second deep learning model for MNIST data analysis in our case is LSTM. 
+Thus, the second deep learning model for MNIST data analysis in my case is LSTM. 
 
 ### Architecture
 #### CNN
 The good thing is that MNIST dataset is well known and there are many approaches are published in the web.
 A quick search among publications allowed me to locate a paper by [Sabour, Frosst & Hinton (2017)](https://arxiv.org/pdf/1710.09829.pdf). 
 In the paper, authors discuss a new approach to CNN architecture based on concept of a capsule - a group of neurons with activity vector
-as instantiation parameters of a specific entity (object or its part). An aside note for curious mind: capsules at one level make predictions via transformation matrices
+as instantiation parameters of a specific entity (object or its part). Aside note for curious mind: capsules at one level make predictions via transformation matrices
 for instantiation parameters of higher level capsules, with multiple predictions aligned the system activates a higher-level capsule.
 Very interesting reading - highly recommended. The baseline model the authors mentioned is a standart CNN with 3 convolutional layers: 256x256x128
 with 5x5 kernels and stride of 1. The last convolutional layer is followed by one fully connected layer of size 328 
-(small discrepancy with the paper that describes two fully connected layers). The last fully connected layer is connected with dropout to a 10 class softmax layer
-with cross entropy loss. The model is trained with use of Adam optimizer. This model is designed to achieve the best performance on MNIST dataset, thus  
-its architecture was used for my current project. 
+(small discrepancy with the paper in my case such that the authors describe two fully connected layers). The last fully connected layer is connected with dropout to a 10 class softmax layer
+with cross entropy loss. The model is trained with use of Adam optimizer. This model is designed to achieve the best performance on MNIST dataset, thus its architecture was used for my current project. 
 
 #### LSTM
-I didn't find any specific papers delivering a tuned architecture for LSTM model to perform well on MNIST. 
+I didn't find any specific papers delivering a 'ready-to-use' architecture for LSTM model to perform well on MNIST. 
 I had more flexibility "to try, fail and learn" within limited time frame. I have started with very basic LSTM model with one LSTM layer and 50 memory units.
 The accuracy and loss function could be improved. So, the latest version of my LSTM has 4 LSTM layers with 250 memory units. I also included an output layer with 10 neurons.
 Because it's a classification problem, I use a softmax function as an output layer to allow for separate probabilities for each of ten digits. 
@@ -62,14 +55,14 @@ As in the previous model, I also use a cross-entropy loss as it comes from a pro
 
 ### Implementation
 Both models are trained with a batch_size of 64 and 50 epochs. 
-I have encountered the problem of computational limitations and considering a time constraint my solution was to run my models on a subset of MNIST dataset.
+I have encountered the problem of computational limitations. Considering a time constraint, my solution was to run my models on a subset of MNIST dataset.
 My training set consists 1000 image samples from MNIST original training set. My test set comprised 200 image samples from MNIST original test set. 
-It can be easily tweaked in the code to full size to run on more powerfull machines. 
+It can be easily tweaked in the code to return a full size to run on more powerful machines. 
 
 Code is available in the appropriate files **mnist_cnn.py** and **mnist_rnn.py**
 
 ### Results
-My CNN model runs for 3 hours with 35M parameters on a standart Mac CPU computational power. 
+My CNN model runs for 3 hours with 35M parameters on a standard MacBook Pro CPU computational power. 
 
 ```
 # Evaluate performance of CNN model  
@@ -97,7 +90,7 @@ The visualization of 9 first digits correctly predicted:
 And 3 digits that were predicted incorrectly:
 <img src="CNN 9 first digits incorrect.png"/>
 
-My LSTM model is comparatively more simplistic with only 1.8M parameters. Runs in a matter of minutes.
+My LSTM model is comparatively more simplistic with only 1.8M parameters. Takes only minutes to run (although I am using a bit more powerful CPU in this case).
 
 ```
 # Evaluate performance of RNN (LSTM) model
@@ -109,13 +102,13 @@ Test cross-entropy loss: 0.43750
 Test accuracy: 0.9050
 ```
 
-I also visualize the learning trajectory:
+The learning trajectory:
    <img src="lstm learning trajectory.jpeg"/>
 
 The validation accuracy is 0.9050, the validation error is 9.5%.
 Out of 200 test images there are 19 that were incorrectly predicted. 
 
-I also visualize 9 first digits from the serieses of correctly and incorrectly predicted digits:
+Vusialisation of 9 first digits from the series of correctly and incorrectly predicted digits:
 <img src="LSTM 9 first digits correct.jpeg"/>
 <img src="LSTM 9 first digits incorrect.jpeg"/>
 
@@ -123,7 +116,7 @@ I also visualize 9 first digits from the serieses of correctly and incorrectly p
 My choice is obvious. CNN architecture I used is created to perform well. 
 By adding one more fully connected layer and tweaking a bit hyperparameters of a model, 
 assuming I could launch tensorflow on GPU 
-(after N hours of search for an appropriate machine and general research the launch appeared to be unrealistic
+(after N hours of search for an appropriate machine and general research, the launch appeared to be unrealistic
 considering a limited time frame), I would most likely achieve even better accuracy. 
 According to Sabour et al. (2017) it is possible. 
 
@@ -141,9 +134,9 @@ Test accuracy: 0.935
 ```
 The validation accuracy improved by 0.03, with validation error decreasing by 3% (!) to 6.5%.
 The need for normalization depends on the algorithm. I would expect normalization making no harm, however, 
-after some research into area, I understood that if my attributes have comparable and meaningful scale then
+after some research into subject, I understood that if my attributes have comparable and meaningful scale then
 normalization can actually bring more harm and negatively affect important information.
-I would definitely spend more time playing around and trying on my CNN, but the important moment one must understand
+I would definitely spend more time playing around and trying on my CNN, but the important moment one must comprehend
 is that understanding ones data is essential. Normalization isn't a panacea without a thorough understanding of a data. 
 
 ## Regularization (overfitting and its cure)
@@ -155,8 +148,7 @@ We can also observe that training loss is decreasing as well. It happened to my 
 In my case, I cured the overfitting by two simple techniques: 
 1. First and foremost I was still working on architecture, so I was constantly improving my LSTM and it could learn
 to generalize well. For example, I added more layers and memory units, more epochs.
-2. I used even smaller subset of data. By adding more data points, I was able to increase discrepancies in the patterns 
-so my model won't "get too familiar" with what it fed with. 
+2. During formation I used even smaller subsets of data. By adding more data points I was able to increase discrepancies in the patterns so my model won't "get too familiar" with what it fed with during training stage. 
 
 Other useful technique I would go for having a bit of additional time is augmentation. 
 Augmentation allows to randomly rotate the image, zoom it in, add a color filter, or basically 
@@ -167,11 +159,20 @@ Image alterations can be done by importing [ImageDataGenerator class provided by
 
 Adding penalties [L1 (Laplacian) and L2 (Gaussian)](https://medium.com/greyatom/what-is-underfitting-and-overfitting-in-machine-learning-and-how-to-deal-with-it-6803a989c76) 
 to our cost function is another useful way to battle overfitting.
-Another approach is incorporating a dropout, or reduction of number of neurons to reduce interdependent learning among them.
-In my example of LSTM model, I was considering incorporating dropouts of 20% of neurons after each LSTM layer. 
-However, there are few observations should be taken into account. For example, [dropouts double the number of iterations needed for convergence.](https://medium.com/@amarbudhiraja/https-medium-com-amarbudhiraja-learning-less-to-learn-better-dropout-in-deep-machine-learning-74334da4bfc5)
+Finally, I could also address overfitting by incorporating a dropout, or reduction of number of neurons to reduce interdependent learning among them. In my example of LSTM model, I was considering incorporating dropouts of 20% of neurons after each LSTM layer. 
+However, there are few observations should be taken into account before using it. In my case the important fact was that [dropouts double the number of iterations needed for convergence.](https://medium.com/@amarbudhiraja/https-medium-com-amarbudhiraja-learning-less-to-learn-better-dropout-in-deep-machine-learning-74334da4bfc5)
 By experimenting, I left dropouts out of the scenery, my back propagation algorithm seemed to converge anyway.
 However, there is a definite room for more experiments.
+
+### Acknowledgments
+Besides those i mentioned in the comments for my code, I would like to express my appreciation to:
+* https://machinelearningmastery.com
+* a number of blog posts on https://medium.com
+* https://github.com/sorki/python-mnist
+* Yumi's blog
+* a number of GitHub repositories for educational purposes
+
+
 
 
 
